@@ -18,6 +18,7 @@ public class AlertRabbit {
         AlertRabbit rabbit = new AlertRabbit();
         try (InputStream is = loader.getResourceAsStream("rabbit.properties")) {
             rabbit.properties.load(is);
+            is.close();
             Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
             scheduler.start();
             JobDetail job = newJob(Rabbit.class).build();
