@@ -10,7 +10,7 @@ public class PostTest {
     @Test
     public void simpleTestForCodecov() {
         Calendar calendar = Calendar.getInstance();
-        Post post = new Post("name", "text", "dot.com", calendar);
+        Post post = new Post(1, "name", "text", "dot.com", calendar);
         assertThat(post.getName(), is("name"));
     }
 

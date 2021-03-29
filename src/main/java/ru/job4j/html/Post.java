@@ -2,14 +2,22 @@ package ru.job4j.html;
 
 import java.util.Calendar;
 
+/**
+ * @author Shegai Evgenii
+ * @version 1.0
+ * @since 29.03.2021
+ */
+
 public class Post {
 
+    private int id;
     private String name;
     private String description;
     private String url;
     private Calendar date;
 
-    public Post(String name, String description, String url, Calendar date) {
+    public Post(int id, String name, String description, String url, Calendar date) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.url = url;
