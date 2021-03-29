@@ -9,8 +9,8 @@ public class SqlRuParseTest {
     // для запуска сервиса codecov
     @Test
     public void whenGetMonths() {
-        SqlRuParse parse = new SqlRuParse();
-        parse.recMonthInList();
+        SqlRuDateTimeParser parse = new SqlRuDateTimeParser();
+        parse.recMonthInMap();
         assertThat(parse.getMonths().size(), is(12));
     }
 }
