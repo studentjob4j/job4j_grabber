@@ -23,6 +23,7 @@ import org.slf4j.LoggerFactory;
 
 public class SqlRuDateTimeParser implements DateTimeParser {
 
+    private static int index = 1;
     private static final Logger LOG = LoggerFactory.getLogger(SqlRuDateTimeParser.class.getName());
     private static List<String> list = new ArrayList<>();
     private final Map<String, String> months = new HashMap<>();
@@ -36,28 +37,34 @@ public class SqlRuDateTimeParser implements DateTimeParser {
         SqlRuDateTimeParser parse = new SqlRuDateTimeParser();
         int count = 0;
         parse.recMonthInMap();
-        Document doc = null;
         try {
-            doc = Jsoup.connect("https://www.sql.ru/forum/job-offers").get();
+        while (index <= 5) {
+                Document doc = Jsoup.connect(
+                        String.format("%s/%d", "https://www.sql.ru/forum/job-offers", index)).get();
+                Elements row = doc.select(".postslisttopic");
+                Elements row2 = doc.getElementsByClass("altCol");
+                for (Element e : row2) {
+                    Elements elements = e.select("td[style=text-align:center]");
+                    if (elements.size() != 0) {
+                        list.add(elements.text());
+                    }
+                }
+                for (Element td : row) {
+                    Element href = td.child(0);
+                    System.out.println(href.attr("href"));
+                    System.out.println(href.text());
+                    parse.removeCharT(parse.parse(list.get(count++)));
+                    System.out.println();
+                }
+            System.out.println();
+            index++;
+            }
+
         } catch (IOException e) {
             LOG.error(e.getMessage());
         }
-        Elements row = doc.select(".postslisttopic");
-        Elements row2 = doc.getElementsByClass("altCol");
-        for (Element e : row2) {
-            Elements elements = e.select("td[style=text-align:center]");
-            if (elements.size() != 0) {
-                list.add(elements.text());
-            }
-        }
-        for (Element td : row) {
-        Element href = td.child(0);
-        System.out.println(href.attr("href"));
-        System.out.println(href.text());
-        parse.removeCharT(parse.parse(list.get(count++)));
-        System.out.println();
+
     }
-}
 
     public void recMonthInMap() {
         months.put("янв", "01");
