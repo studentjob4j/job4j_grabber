@@ -21,25 +21,30 @@ public class SqlRuParse {
     private static final Logger LOG = LoggerFactory.getLogger(SqlRuParse.class.getName());
 
     public static void main(String[] args) {
-        Document doc = null;
+
+        SqlRuDateTimeParser parser = new SqlRuDateTimeParser();
+
         try {
-            doc = Jsoup.connect("https://www.sql.ru/forum/job-offers").get();
+            Document doc = Jsoup.connect("https://www.sql.ru/forum/job-offers").get();
+            Elements row = doc.select(".postslisttopic");
+            Elements row2 = doc.getElementsByClass("altCol");
+            int count = 0;
+            for (Element e : row2) {
+                Elements elements = e.getElementsByAttribute("style");
+                if (elements.size() != 0) {
+                    list.add(elements.text());
+                }
+            }
+            for (Element td : row) {
+                Element href = td.child(0);
+                System.out.println(href.attr("href"));
+                System.out.println(href.text());
+                parser.removeCharT(parser.parse(list.get(count++)));
+                System.out.println();
+            }
+
         } catch (IOException e) {
             LOG.error(e.getMessage());
-        }
-        Elements row = doc.select(".postslisttopic");
-        Elements row2 = doc.getElementsByClass("altCol");
-        int count = 0;
-        for (Element e : row2) {
-            Elements elements = e.getElementsByAttribute("style");
-            list.add(elements.text());
-        }
-        for (Element td : row) {
-            Element href = td.child(0);
-            System.out.println(href.attr("href"));
-            System.out.println(href.text());
-            System.out.println(list.get(count++));
-            System.out.println();
         }
     }
 }
