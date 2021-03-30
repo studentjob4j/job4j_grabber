@@ -25,6 +25,8 @@ public class SimpleParsePost {
 
     public Post createPostAfterParse() {
 
+        SqlRuDateTimeParser parser = new SqlRuDateTimeParser();
+
         try {
             Document document = Jsoup.connect(
                     "https://www.sql.ru/forum/1325330/lidy-be-fe-senior-"
@@ -33,16 +35,24 @@ public class SimpleParsePost {
             Elements name = document.select("td[id=id22132447]");
             Elements desc = document.select("td[class=msgBody]");
             Elements data = document.select("td[class=msgFooter]");
+            String date = data.get(0).text().substring(0, 16);
+            String result = parser.removeCharT(parser.parse(date));
             Calendar calendar = Calendar.getInstance();
-            String[] array = data.get(0).text().substring(0, 9).split(" ");
-            calendar.set(Integer.parseInt(array[2]),
-                    Integer.parseInt(array[0]), Integer.parseInt(array[0]));
+            String[] array = splitString(result);
+            calendar.set(Integer.parseInt(array[0]), Integer.parseInt(array[1]),
+                    Integer.parseInt(array[2]));
             this.post = new Post(1, name.text(), desc.get(1).text(),
                     url.attr("href"), calendar);
         } catch (IOException e) {
            LOG.error(e.getMessage());
         }
         return post;
+    }
+
+    private String[] splitString(String value) {
+        value = value.substring(0, 10);
+        String[] result = value.split("-");
+        return result;
     }
 }
 
