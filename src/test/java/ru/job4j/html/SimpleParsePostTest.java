@@ -10,7 +10,8 @@ public class SimpleParsePostTest {
     @Test
     public void whenGetPost() {
         SimpleParsePost post = new SimpleParsePost();
-        assertThat(post.createPostAfterParse(), is(post.getPost()));
+        post.createPostAfterParse();
+        assertThat(post.getPost().getName(),
+                is("Лиды BE/FE/senior cистемные аналитики/QA и DevOps, Москва, до 200т. [new]"));
     }
-
 }

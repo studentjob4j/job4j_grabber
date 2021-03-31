@@ -7,6 +7,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -39,10 +40,11 @@ public class SqlRuParse {
                 Element href = td.child(0);
                 System.out.println(href.attr("href"));
                 System.out.println(href.text());
-                parser.removeCharT(parser.parse(list.get(count++)));
+                LocalDateTime result = parser.parse(list.get(count++));
+                String data = parser.removeCharT(result);
+                System.out.println(data);
                 System.out.println();
             }
-
         } catch (IOException e) {
             LOG.error(e.getMessage());
         }

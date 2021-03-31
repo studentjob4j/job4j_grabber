@@ -6,6 +6,7 @@ import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 
 /**
@@ -36,23 +37,15 @@ public class SimpleParsePost {
             Elements desc = document.select("td[class=msgBody]");
             Elements data = document.select("td[class=msgFooter]");
             String date = data.get(0).text().substring(0, 16);
-            String result = parser.removeCharT(parser.parse(date));
+            LocalDateTime result = parser.parse(date);
             Calendar calendar = Calendar.getInstance();
-            String[] array = splitString(result);
-            calendar.set(Integer.parseInt(array[0]), Integer.parseInt(array[1]),
-                    Integer.parseInt(array[2]));
+            calendar.set(result.getYear(), result.getMonthValue(), result.getDayOfMonth());
             this.post = new Post(1, name.text(), desc.get(1).text(),
                     url.attr("href"), calendar);
         } catch (IOException e) {
            LOG.error(e.getMessage());
         }
         return post;
-    }
-
-    private String[] splitString(String value) {
-        value = value.substring(0, 10);
-        String[] result = value.split("-");
-        return result;
     }
 }
 

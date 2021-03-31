@@ -15,7 +15,6 @@ import java.time.LocalTime;
 public class SqlRuDateTimeParser implements DateTimeParser {
 
     private final Map<String, String> months = new HashMap<>();
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
 
     public SqlRuDateTimeParser() {
         recMonthInMap();
@@ -84,12 +83,6 @@ public class SqlRuDateTimeParser implements DateTimeParser {
     }
 
     public String removeCharT(LocalDateTime value) {
-        String temp  = value.toString();
-        LocalDateTime time = LocalDateTime.parse(temp, formatter);
-        temp = DateTimeFormatter.ofPattern("yyyy-MM-dd  HH:mm:ss").
-                format(time);
-        System.out.println(DateTimeFormatter.ofPattern("yyyy-MM-dd  HH:mm:ss").
-                format(time));
-        return temp;
+        return DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm").format(value);
     }
 }
