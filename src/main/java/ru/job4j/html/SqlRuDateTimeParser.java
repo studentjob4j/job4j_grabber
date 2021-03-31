@@ -1,19 +1,10 @@
 package ru.job4j.html;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.time.*;
 import java.time.LocalTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author Shegai Evgenii
@@ -23,47 +14,15 @@ import org.slf4j.LoggerFactory;
 
 public class SqlRuDateTimeParser implements DateTimeParser {
 
-    private static int index = 1;
-    private static final Logger LOG = LoggerFactory.getLogger(SqlRuDateTimeParser.class.getName());
-    private static List<String> list = new ArrayList<>();
     private final Map<String, String> months = new HashMap<>();
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
 
-    public Map<String, String> getMonths() {
-        return months;
+    public SqlRuDateTimeParser() {
+        recMonthInMap();
     }
 
-    public static void main(String[] args) {
-        SqlRuDateTimeParser parse = new SqlRuDateTimeParser();
-        int count = 0;
-        parse.recMonthInMap();
-        try {
-        while (index <= 5) {
-                Document doc = Jsoup.connect(
-                        String.format("%s/%d", "https://www.sql.ru/forum/job-offers", index)).get();
-                Elements row = doc.select(".postslisttopic");
-                Elements row2 = doc.getElementsByClass("altCol");
-                for (Element e : row2) {
-                    Elements elements = e.select("td[style=text-align:center]");
-                    if (elements.size() != 0) {
-                        list.add(elements.text());
-                    }
-                }
-                for (Element td : row) {
-                    Element href = td.child(0);
-                    System.out.println(href.attr("href"));
-                    System.out.println(href.text());
-                    parse.removeCharT(parse.parse(list.get(count++)));
-                    System.out.println();
-                }
-            System.out.println();
-            index++;
-            }
-
-        } catch (IOException e) {
-            LOG.error(e.getMessage());
-        }
-
+    public Map<String, String> getMonths() {
+        return months;
     }
 
     public void recMonthInMap() {
@@ -85,10 +44,7 @@ public class SqlRuDateTimeParser implements DateTimeParser {
     public LocalDateTime parse(String parse) {
         String[] timer = getTime(parse, 1);
         LocalTime time = LocalTime.of(Integer.parseInt(timer[0]), Integer.parseInt(timer[1]));
-        String[] data = getDate(parse, 0);
-        LocalDate date = LocalDate.of(
-                Integer.parseInt(data[2]),
-                Integer.parseInt(data[1]), Integer.parseInt(data[0]));
+        LocalDate date = getDate(parse, 0);
         return LocalDateTime.of(date, time);
     }
 
@@ -97,31 +53,29 @@ public class SqlRuDateTimeParser implements DateTimeParser {
         return array[value];
     }
 
-    private String[] getDate(String parse, int value) {
+    private LocalDate getDate(String parse, int value) {
         StringBuilder builder = new StringBuilder();
         builder.append("20");
-        String[] arr = new String[3];
         String date = splitString(parse, value);
-        Calendar calendar = Calendar.getInstance();
+        LocalDate result;
         if (date.contains("сегодня")) {
-            arr[0] = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
-            arr[1] = String.valueOf(calendar.get(Calendar.MONTH) + 1);
-            arr[2] = String.valueOf(calendar.get(Calendar.YEAR));
+            result = LocalDate.now();
         } else if (date.contains("вчера")) {
-            arr[0] = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH) - 1);
-            arr[1] = String.valueOf(calendar.get(Calendar.MONTH) + 1);
-            arr[2] = String.valueOf(calendar.get(Calendar.YEAR));
+            result = LocalDate.now().minusDays(1);
         } else {
-            arr = date.split(" ");
+            String[] arr = date.split(" ");
             arr[1] = months.get(arr[1]);
             if (!arr[2].equals("21")) {
                builder.append(arr[2]);
                 arr[2] = builder.toString();
             } else {
+                Calendar calendar = Calendar.getInstance();
                 arr[2] = String.valueOf(calendar.get(Calendar.YEAR));
             }
+            result = LocalDate.of(Integer.parseInt(arr[2]),
+                    Integer.parseInt(arr[1]), Integer.parseInt(arr[0]));
         }
-        return arr;
+        return result;
     }
 
     private String[] getTime(String parse, int value) {
@@ -129,9 +83,13 @@ public class SqlRuDateTimeParser implements DateTimeParser {
         return date.split(":");
     }
 
-    private void removeCharT(LocalDateTime value) {
+    public String removeCharT(LocalDateTime value) {
         String temp  = value.toString();
         LocalDateTime time = LocalDateTime.parse(temp, formatter);
-        System.out.println(DateTimeFormatter.ofPattern("yyyy-MM-dd  HH:mm:ss").format(time));
+        temp = DateTimeFormatter.ofPattern("yyyy-MM-dd  HH:mm:ss").
+                format(time);
+        System.out.println(DateTimeFormatter.ofPattern("yyyy-MM-dd  HH:mm:ss").
+                format(time));
+        return temp;
     }
 }
