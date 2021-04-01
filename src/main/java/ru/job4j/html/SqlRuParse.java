@@ -52,6 +52,7 @@ public class SqlRuParse implements Parse {
 
     @Override
     public Post detail(String link) {
-        return parsePost.createPostAfterParse(link);
+        Post result =  parsePost.createPostAfterParse(link);
+        return result;
     }
 }
