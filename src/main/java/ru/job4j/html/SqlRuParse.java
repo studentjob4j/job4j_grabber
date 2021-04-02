@@ -1,12 +1,12 @@
 package ru.job4j.html;
 
+import org.jsoup.nodes.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -24,26 +24,19 @@ public class SqlRuParse implements Parse {
     @Override
     public List<Post> list(String link) {
         List<Post> list = new ArrayList<>();
-        SqlRuDateTimeParser parser = new SqlRuDateTimeParser();
-        int id = 1;
-        int index = 1;
+        int count = 3;
 
         try {
             Document document = Jsoup.connect(link).get();
-            Elements url = document.select("link[rel=canonical]");
-            Elements name = document.select("td[class=messageHeader]");
-            Elements desc = document.select("td[class=msgBody]");
-            Elements data = document.select("td[class=msgFooter]");
-            String date = data.get(0).text().substring(0, 16);
-            Calendar calendar = Calendar.getInstance();
-            for (int i = 0; i < name.size(); i++) {
-                LocalDateTime result = parser.parse(date);
-                calendar.set(result.getYear(), result.getMonthValue(), result.getDayOfMonth());
-                Post post = new Post(id++, name.get(i).text(), desc.get(index).text(),
-                        url.attr("href"), calendar);
-                list.add(post);
-                index += 2;
+            Elements url = document.select("td[class=postslisttopic]");
+            while (count < url.size()) {
+                Element element = url.get(count);
+                Elements temp = element.select("a");
+                String value = temp.attr("href");
+                list.add(parsePost.createPostAfterParse(value));
+                count++;
             }
+
         } catch (IOException e) {
             LOG.error(e.getMessage());
         }

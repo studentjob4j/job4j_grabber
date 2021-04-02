@@ -19,8 +19,8 @@ public class SqlRuParseTest {
     public void whenGetListPost() {
         SqlRuParse parse = new SqlRuParse();
         List<Post> list = parse.list(
-                "https://www.sql.ru/forum/1334818/vakansiya-ms-sql-razrabotchik");
-        assertThat(list.size(), is(9));
+                "https://www.sql.ru/forum/job-offers");
+        assertThat(list.size(), is(50));
     }
 
     @Test
