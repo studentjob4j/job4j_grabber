@@ -4,16 +4,26 @@ import java.sql.Date;
 
 public class Post {
 
+    private int id;
     private String name;
     private String description;
     private String url;
     private Date date;
 
-    public Post(String name, String desc, String url, Date date) {
+    public Post(int id, String name, String desc, String url, Date date) {
+        this.id = id;
         this.name = name;
         this.description = desc;
         this.url = url;
         this.date = date;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -50,7 +60,7 @@ public class Post {
 
     @Override
     public String toString() {
-        return "Post{" + "name='" + name + '\'' + ","
+        return "Post{" + "id_post='" + id + '\'' + "name='" + name + '\'' + ","
                 + "desc='" + description + '\'' + ","
                 + "url='" + url + '\'' + ", date=" + date + '}';
     }
