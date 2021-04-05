@@ -19,7 +19,7 @@ public class SimpleParsePost {
 
     private static final Logger LOG = LoggerFactory.getLogger(SqlRuDateTimeParser.class.getName());
     private Post post;
-    private int id = 0;
+    private int id = 1;
 
     public Post getPost() {
         return post;

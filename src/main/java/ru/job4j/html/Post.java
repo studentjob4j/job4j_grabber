@@ -24,6 +24,9 @@ public class Post {
         this.date = date;
     }
 
+    public Post() {
+    }
+
     public int getId() {
         return id;
     }
@@ -63,5 +66,4 @@ public class Post {
     public void setDate(Calendar date) {
         this.date = date;
     }
-
 }
