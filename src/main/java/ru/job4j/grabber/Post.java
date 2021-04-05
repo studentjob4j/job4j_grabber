@@ -10,12 +10,15 @@ public class Post {
     private String url;
     private Date date;
 
-    public Post(int id, String name, String desc, String url, Date date) {
-        this.id = id;
+    public Post(String name, String desc, String url, Date date) {
         this.name = name;
         this.description = desc;
         this.url = url;
         this.date = date;
+    }
+
+    public Post() {
+
     }
 
     public int getId() {
@@ -24,6 +27,14 @@ public class Post {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getName() {
@@ -60,8 +71,8 @@ public class Post {
 
     @Override
     public String toString() {
-        return "Post{" + "id_post='" + id + '\'' + "name='" + name + '\'' + ","
-                + "desc='" + description + '\'' + ","
-                + "url='" + url + '\'' + ", date=" + date + '}';
+        return "Post{" + "id=" + id + ", name='" + name + '\'' + ", description='" + description
+                + '\'' + ", url='" + url + '\''
+                + ", date=" + date + '}';
     }
 }
