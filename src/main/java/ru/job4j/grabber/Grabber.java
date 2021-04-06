@@ -2,12 +2,8 @@ package ru.job4j.grabber;
 
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
-import ru.job4j.html.Post;
 import ru.job4j.html.SqlRuParse;
 import java.io.*;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Properties;
 import static org.quartz.JobBuilder.newJob;
@@ -49,6 +45,10 @@ public class Grabber implements Grab {
         }
     }
 
+    public Properties getCfg() {
+        return cfg;
+    }
+
     @Override
     public void init(Parse parse, Store store, Scheduler scheduler) {
         JobDataMap data = new JobDataMap();
@@ -79,25 +79,11 @@ public class Grabber implements Grab {
             JobDataMap map = context.getJobDetail().getJobDataMap();
             Store store = (Store) map.get("store");
             Parse parse = (Parse) map.get("parse");
-            List<Post> list = parse.list("https://www.sql.ru/forum/job-offers");
-            List<ru.job4j.grabber.Post> result = changeTypeDate(list);
-            for (ru.job4j.grabber.Post post : result) {
+            List<ru.job4j.grabber.Post> list = parse.list("https://www.sql.ru/forum/job-offers");
+            for (ru.job4j.grabber.Post post : list) {
                 store.save(post);
             }
         }
-    }
-
-    private  static List<ru.job4j.grabber.Post> changeTypeDate(List<Post> list) {
-        List<ru.job4j.grabber.Post> result = new ArrayList<>();
-        for (Post post : list) {
-            Calendar calendar = post.getDate();
-            Date date = new Date(calendar.getTimeInMillis());
-            date.setMonth(date.getMonth() - 1);
-            ru.job4j.grabber.Post post2 = new ru.job4j.grabber.Post(post.getName(),
-                    post.getDescription(), post.getUrl(), date);
-            result.add(post2);
-        }
-        return result;
     }
 
     public static void main(String[] args) throws Exception {

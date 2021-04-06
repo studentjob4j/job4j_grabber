@@ -6,6 +6,8 @@ import org.slf4j.LoggerFactory;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+import ru.job4j.grabber.Post;
+
 import java.io.IOException;
 import java.util.*;
 
@@ -23,7 +25,7 @@ public class SqlRuParse implements Parse {
 
     @Override
     public List<Post> list(String link) {
-        List<Post> list = new ArrayList<>();
+        List<ru.job4j.grabber.Post> list = new ArrayList<>();
         int count = 3;
 
         try {
@@ -44,8 +46,8 @@ public class SqlRuParse implements Parse {
     }
 
     @Override
-    public Post detail(String link) {
-        Post result =  parsePost.createPostAfterParse(link);
+    public ru.job4j.grabber.Post detail(String link) {
+        ru.job4j.grabber.Post result =  parsePost.createPostAfterParse(link);
         return result;
     }
 }

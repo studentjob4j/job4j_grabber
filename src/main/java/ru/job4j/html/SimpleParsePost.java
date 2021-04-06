@@ -5,9 +5,11 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.job4j.grabber.Post;
+
 import java.io.IOException;
+import java.sql.Date;
 import java.time.LocalDateTime;
-import java.util.Calendar;
 
 /**
  * @author Shegai Evgenii
@@ -18,10 +20,10 @@ import java.util.Calendar;
 public class SimpleParsePost {
 
     private static final Logger LOG = LoggerFactory.getLogger(SqlRuDateTimeParser.class.getName());
-    private Post post;
+    private ru.job4j.grabber.Post post;
     private int id = 1;
 
-    public Post getPost() {
+    public ru.job4j.grabber.Post getPost() {
         return post;
     }
 
@@ -37,11 +39,10 @@ public class SimpleParsePost {
             Elements data = document.select("td[class=msgFooter]");
             String date = splitDate(data.get(0).text());
             LocalDateTime result = parser.parse(date);
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(result.getYear(), result.getMonthValue(), result.getDayOfMonth());
-            this.post = new Post(id++, name.get(0).text(), desc.get(1).text(),
-                    url.attr("href"), calendar);
-
+            Date value = new Date(result.getYear() - 1900,
+                    result.getMonthValue() - 1, result.getDayOfMonth());
+            this.post = new ru.job4j.grabber.Post(name.get(0).text(), desc.get(1).text(),
+                    url.attr("href"), value);
         } catch (IOException e) {
            LOG.error(e.getMessage());
         }

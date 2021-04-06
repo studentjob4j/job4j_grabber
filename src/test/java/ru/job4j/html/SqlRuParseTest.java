@@ -1,6 +1,8 @@
 package ru.job4j.html;
 
 import org.junit.Test;
+import ru.job4j.grabber.Post;
+
 import java.util.List;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
@@ -26,7 +28,8 @@ public class SqlRuParseTest {
     @Test
     public void whenGetPost() {
         SqlRuParse parse = new SqlRuParse();
-        Post post = parse.detail("https://www.sql.ru/forum/1334818/vakansiya-ms-sql-razrabotchik");
+        ru.job4j.grabber.Post post =
+                parse.detail("https://www.sql.ru/forum/1334818/vakansiya-ms-sql-razrabotchik");
         assertThat(post.getName(), is("Вакансия MS SQL разработчик [new]"));
     }
 }
