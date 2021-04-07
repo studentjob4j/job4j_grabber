@@ -46,8 +46,8 @@ public class SqlRuParse implements Parse {
     }
 
     @Override
-    public ru.job4j.grabber.Post detail(String link) {
-        ru.job4j.grabber.Post result =  parsePost.createPostAfterParse(link);
+    public Post detail(String link) {
+        Post result =  parsePost.createPostAfterParse(link);
         return result;
     }
 }

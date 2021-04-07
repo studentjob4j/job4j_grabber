@@ -41,7 +41,7 @@ public class SimpleParsePost {
             LocalDateTime result = parser.parse(date);
             Date value = new Date(result.getYear() - 1900,
                     result.getMonthValue() - 1, result.getDayOfMonth());
-            this.post = new ru.job4j.grabber.Post(name.get(0).text(), desc.get(1).text(),
+            this.post = new Post(name.get(0).text(), desc.get(1).text(),
                     url.attr("href"), value);
         } catch (IOException e) {
            LOG.error(e.getMessage());

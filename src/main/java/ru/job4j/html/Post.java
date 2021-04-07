@@ -1,12 +1,15 @@
+/*
 package ru.job4j.html;
 
 import java.util.Calendar;
 
+*/
 /**
  * @author Shegai Evgenii
  * @version 1.0
  * @since 29.03.2021
- */
+ *//*
+
 
 public class Post {
 
@@ -67,3 +70,4 @@ public class Post {
         this.date = date;
     }
 }
+*/

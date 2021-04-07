@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Evgenii Shegai
  * @version 1.0
- * @since 05.04.2021
+ * @since 07.04.2021
  */
 
 public class Grabber implements Grab {
@@ -79,8 +79,8 @@ public class Grabber implements Grab {
             JobDataMap map = context.getJobDetail().getJobDataMap();
             Store store = (Store) map.get("store");
             Parse parse = (Parse) map.get("parse");
-            List<ru.job4j.grabber.Post> list = parse.list("https://www.sql.ru/forum/job-offers");
-            for (ru.job4j.grabber.Post post : list) {
+            List<Post> list = parse.list("https://www.sql.ru/forum/job-offers");
+            for (Post post : list) {
                 store.save(post);
             }
         }
