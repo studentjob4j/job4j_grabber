@@ -13,7 +13,7 @@ public class SqlRuParseTest {
     @Test
     public void whenGetMonths() {
         SqlRuDateTimeParser parse = new SqlRuDateTimeParser();
-        parse.recMonthInMap();
+        parse.createMonths();
         assertThat(parse.getMonths().size(), is(12));
     }
 
@@ -28,8 +28,10 @@ public class SqlRuParseTest {
     @Test
     public void whenGetPost() {
         SqlRuParse parse = new SqlRuParse();
-        ru.job4j.grabber.Post post =
+        String expect = "Вакансия MS SQL разработчик [new]";
+        Post post =
                 parse.detail("https://www.sql.ru/forum/1334818/vakansiya-ms-sql-razrabotchik");
-        assertThat(post.getName(), is("Вакансия MS SQL разработчик [new]"));
+        String result = post.getName();
+        assertThat(post.getName(), is(expect));
     }
 }

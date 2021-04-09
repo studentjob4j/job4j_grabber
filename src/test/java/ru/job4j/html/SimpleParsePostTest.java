@@ -12,7 +12,8 @@ public class SimpleParsePostTest {
         SimpleParsePost post = new SimpleParsePost();
         post.createPostAfterParse("https://www.sql.ru/forum/1325330/lidy-be-fe-senior-"
                 + "cistemnye-analitiki-qa-i-devops-moskva-do-200t");
-        assertThat(post.getPost().getName(),
+        String result = post.getPost().getName();
+              assertThat(result,
                 is("Лиды BE/FE/senior cистемные аналитики/QA и DevOps, Москва, до 200т. [new]"));
     }
 }

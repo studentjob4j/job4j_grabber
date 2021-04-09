@@ -14,29 +14,29 @@ import java.time.LocalTime;
 
 public class SqlRuDateTimeParser implements DateTimeParser {
 
-    private final Map<String, String> months = new HashMap<>();
+    private Map<String, String> months = new HashMap<>();
 
     public SqlRuDateTimeParser() {
-        recMonthInMap();
+        createMonths();
     }
 
     public Map<String, String> getMonths() {
         return months;
     }
 
-    public void recMonthInMap() {
-        months.put("янв", "01");
-        months.put("фев", "02");
-        months.put("мар", "03");
-        months.put("апр", "04");
-        months.put("май", "05");
-        months.put("июн", "06");
-        months.put("июл", "07");
-        months.put("авг", "08");
-        months.put("сен", "09");
-        months.put("окт", "10");
-        months.put("ноя", "11");
-        months.put("дек", "12");
+    public void createMonths() {
+        this.months.put("янв", "01");
+        this.months.put("фев", "02");
+        this.months.put("мар", "03");
+        this.months.put("апр", "04");
+        this.months.put("май", "05");
+        this.months.put("июн", "06");
+        this.months.put("июл", "07");
+        this.months.put("авг", "08");
+        this.months.put("сен", "09");
+        this.months.put("окт", "10");
+        this.months.put("ноя", "11");
+        this.months.put("дек", "12");
     }
 
     @Override

@@ -10,7 +10,7 @@ public class SqlRuDateTimeParserTest {
     @Test
     public void whenGetMonths() {
         SqlRuDateTimeParser parse = new SqlRuDateTimeParser();
-        parse.recMonthInMap();
+        parse.createMonths();
         assertThat(parse.getMonths().size(), is(12));
     }
 

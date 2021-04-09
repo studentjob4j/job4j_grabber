@@ -50,11 +50,20 @@ public class SimpleParsePost {
     }
 
     private String splitDate(String value) {
+
         StringBuilder builder = new StringBuilder();
+        String[] temp = null;
         int limit = 3;
-        String[] temp = value.split(" ");
+        if (value.contains("сегодня") || value.contains("вчера")) {
+            temp = value.split(" ", 2);
+            String[] tmp = temp[1].split(" ");
+            temp[1] = tmp[0];
+        } else {
+            temp = value.split(" ");
+        }
         for (int i = 0; i <= limit; i++) {
-            if (temp[i].contains("сегодня") || temp[i].contains("вчера")) {
+            String tmp = temp[i];
+            if (tmp.contains("сегодня") || tmp.contains("вчера")) {
                 limit = 1;
             }
             builder.append(temp[i]);

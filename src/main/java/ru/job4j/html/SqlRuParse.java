@@ -25,7 +25,7 @@ public class SqlRuParse implements Parse {
 
     @Override
     public List<Post> list(String link) {
-        List<ru.job4j.grabber.Post> list = new ArrayList<>();
+        List<Post> list = new ArrayList<>();
         int count = 3;
 
         try {
