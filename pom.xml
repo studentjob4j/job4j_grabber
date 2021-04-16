@@ -57,6 +57,13 @@
             <artifactId>slf4j-log4j12</artifactId>
             <version>1.7.30</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.carrotsearch/java-sizeof -->
+        <dependency>
+            <groupId>com.carrotsearch</groupId>
+            <artifactId>java-sizeof</artifactId>
+            <version>0.0.5</version>
+        </dependency>
     </dependencies>
 
     <build>
