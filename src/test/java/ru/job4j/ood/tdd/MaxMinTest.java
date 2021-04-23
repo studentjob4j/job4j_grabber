@@ -9,26 +9,28 @@ package ru.job4j.ood.tdd;
 import org.junit.Test;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Predicate;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
 public class MaxMinTest {
 
+    private final Comparator<Integer> comparator = Comparator.naturalOrder();
+    private final MaxMin maxMin = new MaxMin();
+
     @Test
     public void whenGetMaxValue() {
-        MaxMin maxMin = new MaxMin();
         List<Integer> list = List.of(1, 5, 3, 4);
-        Comparator<Integer> comparator = (o1, o2) -> o1.compareTo(o2);
-        int result = maxMin.max(list, comparator);
+        Predicate<Integer> predicate = x -> x < 0;
+        int result = maxMin.max(list, comparator, predicate);
         assertThat(result, is(5));
     }
 
     @Test
     public void whenGetMinValue() {
-        MaxMin maxMin = new MaxMin();
         List<Integer> list = List.of(4, 2, 3, 5);
-        Comparator<Integer> comparator = (o1, o2) -> o2.compareTo(o1);
-        int result = maxMin.min(list, comparator);
+        Predicate<Integer> predicate = x -> x > 0;
+        int result = maxMin.min(list, comparator, predicate);
         assertThat(result, is(2));
     }
 }
