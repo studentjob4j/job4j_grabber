@@ -9,7 +9,6 @@ package ru.job4j.ood.tdd;
 import org.junit.Test;
 import java.util.Comparator;
 import java.util.List;
-import java.util.function.Predicate;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
@@ -21,16 +20,14 @@ public class MaxMinTest {
     @Test
     public void whenGetMaxValue() {
         List<Integer> list = List.of(1, 5, 3, 4);
-        Predicate<Integer> predicate = x -> x < 0;
-        int result = maxMin.max(list, comparator, predicate);
+        int result = maxMin.max(list, comparator);
         assertThat(result, is(5));
     }
 
     @Test
     public void whenGetMinValue() {
         List<Integer> list = List.of(4, 2, 3, 5);
-        Predicate<Integer> predicate = x -> x > 0;
-        int result = maxMin.min(list, comparator, predicate);
+        int result = maxMin.min(list, comparator);
         assertThat(result, is(2));
     }
 }
