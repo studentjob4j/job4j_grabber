@@ -17,7 +17,7 @@ public class GeneratorDemoTest {
 
     private final String template = "I am a ${name}, Who are ${subject}?";
 
-    @Test
+   /* @Test
     public void whenGetValueByKey() {
         Map<String, String> map = new HashMap<>();
         map.put("name", "John");
@@ -42,5 +42,5 @@ public class GeneratorDemoTest {
         map.put("key", "value");
         map.put("subject", "you");
         String result = new GeneratorDemo().produce(template, map);
-    }
+    }*/
 }
