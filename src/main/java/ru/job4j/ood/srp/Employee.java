@@ -6,16 +6,21 @@ package ru.job4j.ood.srp;
  * @since 27.04.2021
  */
 
+import java.util.Calendar;
 import java.util.Objects;
 
 public class Employee {
 
     private String name;
+    private Calendar hired;
+    private Calendar fired;
     private double salary;
 
-    public Employee(String name, int countGoods) {
+    public Employee(String name, Calendar hired, Calendar fired, double salary) {
         this.name = name;
-        this.salary = allSalary(countGoods);
+        this.hired = hired;
+        this.fired = fired;
+        this.salary = salary;
     }
 
     public String getName() {
@@ -26,12 +31,28 @@ public class Employee {
         this.name = name;
     }
 
+    public Calendar getHired() {
+        return hired;
+    }
+
+    public void setHired(Calendar hired) {
+        this.hired = hired;
+    }
+
+    public Calendar getFired() {
+        return fired;
+    }
+
+    public void setFired(Calendar fired) {
+        this.fired = fired;
+    }
+
     public double getSalary() {
         return salary;
     }
 
-    private double allSalary(int value) {
-        return value * 0.77;
+    public void setSalary(double salary) {
+        this.salary = salary;
     }
 
     @Override
@@ -50,5 +71,4 @@ public class Employee {
     public int hashCode() {
         return Objects.hash(name);
     }
-
 }
