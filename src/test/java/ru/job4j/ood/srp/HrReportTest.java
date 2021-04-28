@@ -1,10 +1,13 @@
+/*
 package ru.job4j.ood.srp;
 
+*/
 /**
  * @author Shegai Evgenii
  * @version 1.0
  * @since 27.04.2021
- */
+ *//*
+
 
 import org.junit.Test;
 import java.util.Calendar;
@@ -31,4 +34,4 @@ public class HrReportTest {
         assertThat(result, is("Name; Salary;\r\nKolya;14.0;\r\nPetr;10.0;\r\nIvan;8.0;"));
     }
 
-}
+}*/
