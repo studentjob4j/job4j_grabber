@@ -1,11 +1,14 @@
+/*
 package ru.job4j.ood.lsp;
 
+*/
 /**
  * @author Shegai Evgenii
  * @version 1.0
  * @since 29.04.2021
  * this class shows incorrect use lsp principlies when child changed parent logic,
- */
+ *//*
+
 
 public class Rectangle {
 
@@ -42,3 +45,4 @@ public class Rectangle {
 
 
 
+*/
