@@ -26,7 +26,7 @@ public class ControlQualityClient {
     public int countExpirationDatePercentage(Food food) {
         LocalDate expire = food.getExpireDate();
         LocalDate create = food.getCreateDate();
-        LocalDate now = LocalDate.now();
+        LocalDate now = LocalDate.of(2021, 05, 01);
         Period allTime = Period.between(expire, create);
         Period current = Period.between(expire, now);
         int currentDays = Math.abs(current.getDays());
