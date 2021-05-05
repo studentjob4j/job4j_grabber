@@ -10,7 +10,4 @@ public interface Auto {
 
     int getSize();
 
-    int getNumberPlace();
-
-    int setNumberPlace();
 }
