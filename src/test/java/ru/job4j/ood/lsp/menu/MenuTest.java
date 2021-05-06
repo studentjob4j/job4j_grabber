@@ -3,7 +3,7 @@ package ru.job4j.ood.lsp.menu;
 /**
  * @author Shegai Evgenii
  * @version 1.0
- * @since 04.05.2021
+ * @since 06.05.2021
  */
 
 import org.junit.Test;
@@ -13,29 +13,34 @@ import static org.junit.Assert.*;
 public class MenuTest {
 
     @Test
-    public void checkAdd() {
+    public void whenAddParent() {
         Menu menu = new Menu();
-        boolean result = menu.add(new String("test"));
+        menu.addParent("test");
+        assertThat(menu.getList().size(), is(1));
+    }
+
+    @Test
+    public void whenAddParentAndChild() {
+        Menu menu = new Menu();
+        menu.addParent("test");
+        boolean result = menu.addChild("test", new Item("child"));
         assertTrue(result);
     }
 
     @Test
-    public void whenAddSubMenuAndGetName() {
+    public void whenGetParent() {
         Menu menu = new Menu();
-        menu.add(new String("test 1"));
-        menu.addSubMenu("test 1", "test 1.1");
-        String result = menu.get("test 1.1");
-        assertThat(result, is("test 1.1"));
+        menu.addParent("test");
+        Item result = menu.get("test");
+        assertThat(result, is(new Item("test")));
     }
 
     @Test
-    public void showMenu() {
+    public void whenGetChild() {
         Menu menu = new Menu();
-        menu.add(new String("Задача 1"));
-        menu.add(new String("Задача 2"));
-        menu.addSubMenu("Задача 1", "Задача 1.1");
-        menu.addSubMenu("Задача 1", "Задача 1.2");
-        menu.addSubMenu("Задача 2", "Задача 2.1");
-        assertTrue(menu.show());
+        menu.addParent("test");
+        menu.addChild("test", new Item("child"));
+        Item result = menu.get("child");
+        assertThat(result, is(new Item("child")));
     }
 }

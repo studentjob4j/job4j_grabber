@@ -3,10 +3,10 @@ package ru.job4j.ood.lsp.menu;
 /**
  * @author Shegai Evgenii
  * @version 1.0
- * @since 04.05.2021
+ * @since 06.05.2021
  */
 
-public interface GetMenuByName {
+public interface Action {
 
-    String get(String name);
+    void action();
 }
