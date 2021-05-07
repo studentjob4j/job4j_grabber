@@ -33,4 +33,11 @@ public class ParkingTest {
         boolean res = parking.remove(tesla);
         assertTrue(res);
     }
+
+    @Test
+    public void whenNotPlaceForTruck() {
+        Parking parking = new Parking(0, 10);
+        parking.add(new TruckVolvo());
+        assertFalse(false);
+    }
 }
