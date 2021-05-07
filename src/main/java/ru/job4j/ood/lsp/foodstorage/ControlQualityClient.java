@@ -9,6 +9,7 @@ package ru.job4j.ood.lsp.foodstorage;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ControlQualityClient {
@@ -33,6 +34,23 @@ public class ControlQualityClient {
         int allDays = Math.abs(allTime.getDays());
         int result = 100 - (currentDays * 100) / allDays;
         return result;
+    }
+
+    public void resort(List<Integer> condition) {
+        List<Food> temp = new ArrayList<>();
+        this.store.stream().forEach(x -> temp.addAll(x.get()));
+        for (Food tmp : temp) {
+            newSort(tmp, condition);
+        }
+    }
+
+    private void newSort(Food food, List<Integer> condition) {
+        for (Store temp : this.store) {
+            temp.get().clear();
+            if (temp.addResort(food, condition)) {
+                break;
+            }
+        }
     }
 
     public void action(Food food) {

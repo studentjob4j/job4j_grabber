@@ -17,10 +17,6 @@ public class Trash implements Store {
         this.trash = new ArrayList<>();
     }
 
-    public List<Food> getStorage() {
-        return trash;
-    }
-
     @Override
     public boolean add(Food food) {
         boolean result = false;
@@ -30,5 +26,21 @@ public class Trash implements Store {
             result = true;
         }
       return result;
+    }
+
+    @Override
+    public boolean addResort(Food food, List<Integer> condition) {
+        boolean result = false;
+        ControlQualityClient quality = new ControlQualityClient();
+        if (quality.countExpirationDatePercentage(food) == condition.get(2)) {
+            this.trash.add(food);
+            result = true;
+        }
+        return result;
+    }
+
+    @Override
+    public List<Food> get() {
+        return this.trash;
     }
 }

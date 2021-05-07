@@ -17,10 +17,6 @@ public class Shop implements Store {
         this.storage = new ArrayList<>();
     }
 
-    public List<Food> getStorage() {
-        return storage;
-    }
-
     @Override
     public boolean add(Food food) {
         boolean result = false;
@@ -36,5 +32,26 @@ public class Shop implements Store {
             result = true;
         }
         return result;
+    }
+
+    @Override
+    public boolean addResort(Food food, List<Integer> condition) {
+        boolean result = false;
+        ControlQualityClient control = new ControlQualityClient();
+        int temp = control.countExpirationDatePercentage(food);
+        if (temp >= condition.get(0) && temp <= condition.get(1)) {
+            this.storage.add(food);
+            result = true;
+        } else if (temp > condition.get(1) && temp < condition.get(2)) {
+            this.storage.add(food);
+            result = true;
+        }
+        return result;
+
+    }
+
+    @Override
+    public List<Food> get() {
+        return this.storage;
     }
 }
