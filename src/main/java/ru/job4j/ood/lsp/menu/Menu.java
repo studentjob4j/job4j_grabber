@@ -6,36 +6,26 @@ package ru.job4j.ood.lsp.menu;
  * @since 06.05.2021
  */
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class Menu {
 
-    private List<Action> list;
+    private Item item;
 
-    public Menu() {
-        this.list = new ArrayList<>();
+    public Menu(Item item) {
+        this.item = item;
     }
 
-    public List<Action> getList() {
-        return list;
-    }
-
-    public void addParent(String name) {
-        if (this.list.size() == 0) {
-            this.list.add(new Item(name));
-        } else {
-            this.list.add(new Item(name));
-        }
+    public boolean addParent(String name) {
+        return this.item.getList().add(new Item(name));
     }
 
     public boolean addChild(String parentName, Item child) {
         boolean check = false;
-        for (Action action : this.list) {
-            Item item = (Item) action;
-            if (item.getName().equals(parentName)) {
-                item.getList().add(child);
-                check = true;
+        for (Item tmp : this.item.getList()) {
+            if (tmp.getName().equals(parentName)) {
+                check = tmp.getList().add(child);
                 break;
             }
         }
@@ -46,50 +36,46 @@ public class Menu {
     }
 
     public Item get(String name) {
-        Item rsl = null;
-        if (this.list.size() == 0) {
+        Optional<Item> rsl = Optional.empty();
+        if (this.item.getList().size() == 0) {
             throw new UnsupportedOperationException("Not data");
         }
-        for (Action action : this.list) {
-            Item temp = (Item) action;
+        for (Item temp : this.item.getList()) {
             if (temp.getName().equals(name)) {
-                rsl = temp;
+                rsl = Optional.of(temp);
                 break;
             }
         }
-        if (rsl == null) {
+        if (rsl.isEmpty()) {
             rsl = find(name);
         }
-        return rsl;
+        return rsl.orElse(new Item("item not found"));
     }
 
-    private Item find(String name) {
+    private Optional<Item> find(String name) {
         Item res = null;
         int index = 0;
-        while (index != list.size()) {
-            Item temp = (Item) this.list.get(index);
-            List<Item> list = temp.getList();
-            for (int i = 0; i < list.size(); i++) {
-                Item tmp = list.get(i);
+        while (index != this.item.getList().size()) {
+            Item temp = this.item.getList().get(index);
+            List<Item> child = temp.getList();
+            for (int i = 0; i < child.size(); i++) {
+                Item tmp = child.get(i);
                 if (tmp.getName().equals(name)) {
                     res = tmp;
-                    index = list.size();
+                    index = child.size();
                 }
             }
             if (res == null) {
                 index++;
             }
         }
-        if (res == null) {
-            throw new IllegalArgumentException("Please enter correct name");
-        }
-        return res;
+        return Optional.ofNullable(res);
     }
 
     public void print() {
         int count = 0;
-        while (count != this.list.size()) {
-            Item temp = (Item) this.list.get(count);
+        while (count != this.item.getList().size()) {
+            Item temp = this.item.getList().get(count);
             List<Item> tmp = temp.getList();
             System.out.println(temp.getName());
             for (Item menu : tmp) {
@@ -100,7 +86,7 @@ public class Menu {
     }
 
     public static void main(String[] args) {
-        Menu menu = new Menu();
+        Menu menu = new Menu(new Item("Basic"));
         menu.addParent("Задача 1");
         menu.addParent("Задача 2");
         menu.addChild("Задача 1", new Item("Задача 1.1"));
