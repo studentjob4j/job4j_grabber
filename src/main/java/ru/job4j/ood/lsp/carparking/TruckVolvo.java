@@ -12,5 +12,6 @@ public class TruckVolvo implements Auto {
     public int getSize() {
         return 2;
     }
+
 }
 
