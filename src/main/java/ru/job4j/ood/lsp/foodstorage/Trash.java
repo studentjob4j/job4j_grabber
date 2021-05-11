@@ -11,36 +11,37 @@ import java.util.List;
 
 public class Trash implements Store {
 
-    private List<Food> trash;
+    private List<Food> storage;
 
     public Trash() {
-        this.trash = new ArrayList<>();
+        this.storage = new ArrayList<>();
+    }
+
+    public List<Food> getStorage() {
+        return storage;
     }
 
     @Override
-    public boolean add(Food food) {
-        boolean result = false;
-        ControlQualityClient quality = new ControlQualityClient();
-        if (quality.countExpirationDatePercentage(food) == 100) {
-            this.trash.add(food);
-            result = true;
-        }
-      return result;
+    public void add(Food food) {
+            this.storage.add(food);
     }
 
     @Override
-    public boolean addResort(Food food, List<Integer> condition) {
+    public boolean accept(Food food) {
         boolean result = false;
-        ControlQualityClient quality = new ControlQualityClient();
-        if (quality.countExpirationDatePercentage(food) == condition.get(2)) {
-            this.trash.add(food);
+        ControlQualityClient client = new ControlQualityClient();
+        int value = client.countExpirationDatePercentage(food);
+        if (value >= 100) {
             result = true;
         }
         return result;
     }
 
     @Override
-    public List<Food> get() {
-        return this.trash;
+    public List<Food> clear() {
+        List<Food> list = new ArrayList<>();
+        list.addAll(this.storage);
+        this.storage.clear();
+        return list;
     }
 }

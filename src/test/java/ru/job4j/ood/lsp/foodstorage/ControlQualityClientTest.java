@@ -16,112 +16,77 @@ import static org.hamcrest.Matchers.is;
 public class ControlQualityClientTest {
 
     private List<Store> list;
+    private Milk milk;
+    private Strawberry strawberry;
+    private Meat meat;
+    private Onion onion;
+    private ControlQualityClient client;
 
    @Before
-   public void createStorage() {
+   public void createStorageAndProducts() {
        Warehouse warehouse = new Warehouse();
        Shop shop = new Shop();
        Trash trash = new Trash();
        list = List.of(warehouse, shop, trash);
+       this.client = new ControlQualityClient();
    }
 
     @Test
-    public void whenSetFoodInShop() {
-        LocalDate created = LocalDate.of(2021, 4, 10);
-        LocalDate expire = LocalDate.of(2021, 5, 9);
-        Milk milk = new Milk("Milk", expire, created, 100, 0);
-        ControlQualityClient client = new ControlQualityClient();
+    public void whenSetFoodInWarehouse() {
+        LocalDate created = LocalDate.of(2021, 5, 10);
+        LocalDate expire = LocalDate.of(2021, 6, 9);
+        this.milk = new Milk("Milk", expire, created, 100, 0);
         client.setStore(list);
         client.action(milk);
-        Shop shop = (Shop) client.getStore().get(1);
-        assertThat(shop.get().get(0).getName(), is("Milk"));
+        Warehouse warehouse = (Warehouse) client.getStore().get(0);
+        assertThat(warehouse.getStorage().get(0), is(milk));
     }
 
     @Test
     public void whenSetFoodInShopWithDiscount() {
-        LocalDate created = LocalDate.of(2021, 4, 10);
-        LocalDate expire = LocalDate.of(2021, 5, 3);
-        Strawberry strawberry = new Strawberry("Strawberry", expire, created, 300, 12);
-        ControlQualityClient client = new ControlQualityClient();
+        LocalDate created = LocalDate.of(2021, 4, 25);
+        LocalDate expire = LocalDate.of(2021, 5, 16);
+        this.strawberry = new Strawberry("Strawberry", expire, created, 300, 12);
         client.setStore(list);
         client.action(strawberry);
         Shop shop = (Shop) client.getStore().get(1);
-        assertThat(shop.get().get(0).getPrice(), is(288.0));
+        assertThat(shop.getStorage().get(0).getPrice(), is(288.0));
     }
 
     @Test
-    public void whenSetFoodInWarehouse() {
+    public void whenSetFoodInShopWithoutDiscount() {
         LocalDate created = LocalDate.of(2021, 4, 29);
-        LocalDate expire = LocalDate.of(2021, 5, 10);
-        Meat meat = new Meat("Meat", expire, created, 400, 0);
-        ControlQualityClient client = new ControlQualityClient();
+        LocalDate expire = LocalDate.of(2021, 5, 19);
+        this.meat = new Meat("Meat", expire, created, 400, 0);
         client.setStore(list);
         client.action(meat);
-        Warehouse warehouse = (Warehouse) client.getStore().get(0);
-        assertThat(warehouse.get().get(0).getName(), is("Meat"));
+        Shop shop = (Shop) client.getStore().get(1);
+        assertThat(shop.getStorage().get(0).getPrice(), is(400.0));
     }
 
     @Test
     public void whenSetFoodInTrash() {
-        LocalDate created = LocalDate.of(2021, 4, 29);
-        LocalDate expire = LocalDate.of(2021, 5, 1);
-        Onion onion = new Onion("Onion", expire, created, 40, 0);
-        ControlQualityClient client = new ControlQualityClient();
+        LocalDate created = LocalDate.of(2021, 4, 19);
+        LocalDate expire = LocalDate.of(2021, 5, 10);
+        this.onion = new Onion("Onion", expire, created, 40, 0);
         client.setStore(list);
         client.action(onion);
         Trash trash = (Trash) client.getStore().get(2);
-        assertThat(trash.get().get(0).getName(), is("Onion"));
+        assertThat(trash.getStorage().get(0).getName(), is("Onion"));
     }
 
     @Test
-    public void whenSetFoodInShopWithNewCondition() {
-        LocalDate created = LocalDate.of(2021, 4, 10);
-        LocalDate expire = LocalDate.of(2021, 5, 9);
-        Milk milk = new Milk("Milk", expire, created, 100, 0);
-        ControlQualityClient client = new ControlQualityClient();
-        client.setStore(list);
-        client.action(milk);
-        client.resort(List.of(30, 77, 100));
-        Shop shop = (Shop) client.getStore().get(1);
-        assertThat(shop.get().get(0).getName(), is("Milk"));
-    }
-
-    @Test
-    public void whenSetFoodInShopWithDiscountWithNewCondition() {
-        LocalDate created = LocalDate.of(2021, 4, 10);
-        LocalDate expire = LocalDate.of(2021, 5, 3);
-        Strawberry strawberry = new Strawberry("Strawberry", expire, created, 300, 12);
-        ControlQualityClient client = new ControlQualityClient();
+    public void whenResortFood() {
+        LocalDate created = LocalDate.of(2021, 5, 2);
+        LocalDate expire = LocalDate.of(2021, 5, 13);
+        this.strawberry = new Strawberry("strawberry", expire, created, 200, 32);
         client.setStore(list);
         client.action(strawberry);
-        client.resort(List.of(20, 70, 100));
         Shop shop = (Shop) client.getStore().get(1);
-        assertThat(shop.get().get(0).getPrice(), is(288.0));
-    }
-
-    @Test
-    public void whenSetFoodInWarehouseWithNewCondition() {
-        LocalDate created = LocalDate.of(2021, 4, 29);
-        LocalDate expire = LocalDate.of(2021, 5, 10);
-        Meat meat = new Meat("Meat", expire, created, 400, 0);
-        ControlQualityClient client = new ControlQualityClient();
-        client.setStore(list);
-        client.action(meat);
-        client.resort(List.of(20, 40, 100));
-        Warehouse warehouse = (Warehouse) client.getStore().get(0);
-        assertThat(warehouse.get().get(0).getName(), is("Meat"));
-    }
-
-    @Test
-    public void whenSetFoodInTrashWithNewCondition() {
-        LocalDate created = LocalDate.of(2021, 4, 29);
-        LocalDate expire = LocalDate.of(2021, 5, 1);
-        Onion onion = new Onion("Onion", expire, created, 40, 0);
-        ControlQualityClient client = new ControlQualityClient();
-        client.setStore(list);
-        client.action(onion);
-        client.resort(List.of(20, 70, 100));
+        LocalDate newExpire = LocalDate.of(2021, 5, 10);
+        shop.getStorage().get(0).setExpireDate(newExpire);
+        client.resort();
         Trash trash = (Trash) client.getStore().get(2);
-        assertThat(trash.get().get(0).getName(), is("Onion"));
+        assertThat(trash.getStorage().get(0).getName(), is("strawberry"));
     }
 }

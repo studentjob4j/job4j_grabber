@@ -27,35 +27,29 @@ public class ControlQualityClient {
     public int countExpirationDatePercentage(Food food) {
         LocalDate expire = food.getExpireDate();
         LocalDate create = food.getCreateDate();
-        LocalDate now = LocalDate.of(2021, 05, 01);
+        LocalDate now = LocalDate.now();
         Period allTime = Period.between(expire, create);
         Period current = Period.between(expire, now);
-        int currentDays = Math.abs(current.getDays());
-        int allDays = Math.abs(allTime.getDays());
-        int result = 100 - (currentDays * 100) / allDays;
+        int currentDays = current.getDays();
+        int allDays = allTime.getDays();
+        int result = Math.abs(100 - (currentDays * 100) / allDays);
         return result;
     }
 
-    public void resort(List<Integer> condition) {
-        List<Food> temp = new ArrayList<>();
-        this.store.stream().forEach(x -> temp.addAll(x.get()));
-        for (Food tmp : temp) {
-            newSort(tmp, condition);
-        }
-    }
-
-    private void newSort(Food food, List<Integer> condition) {
-        for (Store temp : this.store) {
-            temp.get().clear();
-            if (temp.addResort(food, condition)) {
-                break;
-            }
-        }
+    public void resort() {
+      List<Food> allFood = new ArrayList<>();
+      for (Store storage : this.store) {
+          allFood.addAll(storage.clear());
+      }
+      for (Food food : allFood) {
+          action(food);
+      }
     }
 
     public void action(Food food) {
         for (Store temp : this.store) {
-            if (temp.add(food)) {
+            if (temp.accept(food)) {
+                temp.add(food);
                 break;
             }
         }

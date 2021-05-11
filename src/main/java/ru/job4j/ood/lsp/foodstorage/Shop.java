@@ -17,41 +17,35 @@ public class Shop implements Store {
         this.storage = new ArrayList<>();
     }
 
+    public List<Food> getStorage() {
+        return storage;
+    }
+
     @Override
-    public boolean add(Food food) {
-        boolean result = false;
-        ControlQualityClient control = new ControlQualityClient();
-        int temp = control.countExpirationDatePercentage(food);
-        if (temp >= 25 && temp <= 75) {
+    public void add(Food food) {
             this.storage.add(food);
+    }
+
+    @Override
+    public boolean accept(Food food) {
+        boolean result = false;
+        ControlQualityClient client = new ControlQualityClient();
+        int value = client.countExpirationDatePercentage(food);
+        if (value >= 25 && value <= 75) {
             result = true;
-        } else if (temp > 75 && temp < 100) {
+        } else if (value > 75 && value < 100) {
             double newPrice = food.getPrice() - food.getDiscount();
             food.setPrice(newPrice);
-            this.storage.add(food);
             result = true;
         }
         return result;
     }
 
     @Override
-    public boolean addResort(Food food, List<Integer> condition) {
-        boolean result = false;
-        ControlQualityClient control = new ControlQualityClient();
-        int temp = control.countExpirationDatePercentage(food);
-        if (temp >= condition.get(0) && temp <= condition.get(1)) {
-            this.storage.add(food);
-            result = true;
-        } else if (temp > condition.get(1) && temp < condition.get(2)) {
-            this.storage.add(food);
-            result = true;
-        }
-        return result;
-
-    }
-
-    @Override
-    public List<Food> get() {
-        return this.storage;
+    public List<Food> clear() {
+        List<Food> list = new ArrayList<>();
+        list.addAll(this.storage);
+        this.storage.clear();
+        return list;
     }
 }
