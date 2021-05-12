@@ -29,8 +29,7 @@ public class Shop implements Store {
     @Override
     public boolean accept(Food food) {
         boolean result = false;
-        ControlQualityClient client = new ControlQualityClient();
-        int value = client.countExpirationDatePercentage(food);
+        int value = calculatePercent(food);
         if (value >= 25 && value <= 75) {
             result = true;
         } else if (value > 75 && value < 100) {
@@ -48,4 +47,5 @@ public class Shop implements Store {
         this.storage.clear();
         return list;
     }
+
 }

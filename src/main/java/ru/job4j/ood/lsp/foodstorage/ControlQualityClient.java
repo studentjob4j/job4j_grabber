@@ -7,8 +7,6 @@ package ru.job4j.ood.lsp.foodstorage;
  * this class uses strategy pattern
  */
 
-import java.time.LocalDate;
-import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,18 +20,6 @@ public class ControlQualityClient {
 
     public List<Store> getStore() {
         return store;
-    }
-
-    public int countExpirationDatePercentage(Food food) {
-        LocalDate expire = food.getExpireDate();
-        LocalDate create = food.getCreateDate();
-        LocalDate now = LocalDate.now();
-        Period allTime = Period.between(expire, create);
-        Period current = Period.between(expire, now);
-        int currentDays = current.getDays();
-        int allDays = allTime.getDays();
-        int result = Math.abs(100 - (currentDays * 100) / allDays);
-        return result;
     }
 
     public void resort() {
