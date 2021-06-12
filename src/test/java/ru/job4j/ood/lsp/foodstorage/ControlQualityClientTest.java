@@ -33,8 +33,8 @@ public class ControlQualityClientTest {
 
     @Test
     public void whenSetFoodInWarehouse() {
-        LocalDate created = LocalDate.of(2021, 5, 10);
-        LocalDate expire = LocalDate.of(2021, 6, 9);
+        LocalDate created = LocalDate.of(2021, 6, 10);
+        LocalDate expire = LocalDate.of(2021, 7, 9);
         this.milk = new Milk("Milk", expire, created, 100, 0);
         client.setStore(list);
         client.action(milk);
@@ -44,8 +44,8 @@ public class ControlQualityClientTest {
 
     @Test
     public void whenSetFoodInShopWithDiscount() {
-        LocalDate created = LocalDate.of(2021, 4, 25);
-        LocalDate expire = LocalDate.of(2021, 5, 16);
+        LocalDate created = LocalDate.of(2021, 5, 25);
+        LocalDate expire = LocalDate.of(2021, 6, 16);
         this.strawberry = new Strawberry("Strawberry", expire, created, 300, 12);
         client.setStore(list);
         client.action(strawberry);
@@ -55,8 +55,8 @@ public class ControlQualityClientTest {
 
     @Test
     public void whenSetFoodInShopWithoutDiscount() {
-        LocalDate created = LocalDate.of(2021, 4, 29);
-        LocalDate expire = LocalDate.of(2021, 5, 19);
+        LocalDate created = LocalDate.of(2021, 5, 29);
+        LocalDate expire = LocalDate.of(2021, 6, 19);
         this.meat = new Meat("Meat", expire, created, 400, 0);
         client.setStore(list);
         client.action(meat);
@@ -66,8 +66,8 @@ public class ControlQualityClientTest {
 
     @Test
     public void whenSetFoodInTrash() {
-        LocalDate created = LocalDate.of(2021, 4, 19);
-        LocalDate expire = LocalDate.of(2021, 5, 10);
+        LocalDate created = LocalDate.of(2021, 5, 19);
+        LocalDate expire = LocalDate.of(2021, 6, 10);
         this.onion = new Onion("Onion", expire, created, 40, 0);
         client.setStore(list);
         client.action(onion);
@@ -77,13 +77,13 @@ public class ControlQualityClientTest {
 
     @Test
     public void whenResortFood() {
-        LocalDate created = LocalDate.of(2021, 5, 2);
-        LocalDate expire = LocalDate.of(2021, 5, 13);
+        LocalDate created = LocalDate.of(2021, 6, 2);
+        LocalDate expire = LocalDate.of(2021, 7, 13);
         this.strawberry = new Strawberry("strawberry", expire, created, 200, 32);
         client.setStore(list);
         client.action(strawberry);
         Shop shop = (Shop) client.getStore().get(1);
-        LocalDate newExpire = LocalDate.of(2021, 5, 10);
+        LocalDate newExpire = LocalDate.of(2021, 6, 10);
         shop.getStorage().get(0).setExpireDate(newExpire);
         client.resort();
         Trash trash = (Trash) client.getStore().get(2);
